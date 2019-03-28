@@ -1,0 +1,67 @@
+﻿@{
+    var HocSinh = (HocSinh)Session["HocSinhDangNhap"];
+    if (HocSinh == null)
+    {
+        Response.Redirect("MH_DangNhap");
+    }
+
+    //******************* Kết xuất  **********
+    var ChuoiHTML = XL_TheHien.TaoChuoiHTMLThongTinHocSinh(HocSinh);
+    var XuLyDonXinNghi = "";
+    if (Request["Th_Ngay"] != null)
+    {
+        var NgayVang = new Danh_sach_Vang();
+        var Ngay = Request["Th_Ngay"];
+        var Ly_do = Request["Th_Ly_do"];
+        NgayVang.Ngay = Ngay.AsDateTime();
+        if (Ly_do != "")
+        {
+            NgayVang.Ly_do = Ly_do;
+        }
+        else
+        {
+            NgayVang.Ly_do = "Không lý do";
+        }
+        XuLyDonXinNghi = XL_LuuTru.GhiHocSinh(HocSinh, NgayVang);
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body style="font-family:Arial;width:100%;box-sizing:border-box;
+              margin:0px; padding:0px;overflow-x:hidden" class="container-fluid">
+
+    <div class="CUA_SO_PET" style="background-color:aliceblue;margin:10px">
+        <div class="btn btn-outline-primary" style="color:blue" >Thông Tin Học Sinh</div>
+    </div>
+    <div class="CUA_SO_KET_QUA" style="background-color:white;margin:10px">
+        @Html.Raw(ChuoiHTML)
+    </div>
+    <form action="" method="post" >
+        <div class="btn btn-outline-primary" style="color:lightseagreen" paddingleft="300">Nộp Đơn Xin Nghỉ</div>
+        <p>
+            <label for="text1" paddingleft="300">Ngày dự định nghỉ: </label><br>
+            <input name="Th_Ngay" style="height:30px" type="date" required="required"
+                   spellcheck="false" autocomplete="off" paddingleft="300"/>
+        </p>
+        <p>
+            <label for="text2" paddingleft="300">Lý do: </label><br>
+            <input name="Th_Ly_do" style="height:30px" type="text" spellcheck="false" autocomplete="off" paddingleft="300"/>
+        </p>
+        <p><input type="submit" value="Nộp đơn" paddingleft="300"/></p>
+    </form>
+    <p>@XuLyDonXinNghi</p>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>

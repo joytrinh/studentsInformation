@@ -1,0 +1,54 @@
+﻿@{
+    var HocSinh = (HocSinh)Session["HocSinhDangNhap"];
+    var Ngay = "";
+    var Ly_do = "";
+    if (HocSinh == null)
+    {
+        Response.Redirect("MH_DangNhap");
+    }
+
+    //******************* Kết xuất  **********
+    var ChuoiHTML = XL_TheHien.TaoChuoiHTMLThongTinHocSinh(HocSinh);
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+              integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body style="font-family:Arial;width:100%;box-sizing:border-box;
+              margin:0px; padding:0px;overflow-x:hidden" class="container-fluid">
+
+    <div class="CUA_SO_PET" style="background-color:aliceblue;margin:10px">
+        <div class="btn btn-outline-primary" style="color:blue">Thông Tin Học Sinh</div>
+    </div>
+    <div class="CUA_SO_CHUC_NANG" style="background-color:gray;margin:10px">
+        <div class="DANH_SACH_CHUC_NANG">
+            <div class="btn  CHUC_NANG">
+                <input name="Th_Ngay" style="height:30px" placeholder="Ngày dự định nghỉ " type="date" required="required"
+                       spellcheck="false" autocomplete="off" value="@Ngay" />
+                <input name="Th_Ly_do" style="height:30px" placeholder="Lý do " required="required" type="text"
+                       spellcheck="false" autocomplete="off" value="@Ly_do" />
+                <button class="btn btn-danger" type="submit">Nộp đơn xin nghỉ</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="CUA_SO_KET_QUA" style="background-color:white;margin:10px">
+        @Html.Raw(ChuoiHTML)
+    </div>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>

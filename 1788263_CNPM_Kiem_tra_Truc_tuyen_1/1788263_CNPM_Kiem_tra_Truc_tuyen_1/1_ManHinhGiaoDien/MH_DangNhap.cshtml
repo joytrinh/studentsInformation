@@ -1,0 +1,89 @@
+﻿@{
+    //****************** Khởi động Dữ liệu Nguồn-Nội bộ **********
+    var DanhSachHocSinh = XL_LuuTru.DocDanhSachHocSinh();
+    //******************* Khai báo Biến  ********************
+    var TenDangNhap = "";
+    var MatKhau = "";
+    var HocSinh = new HocSinh();
+    var GiamThi = new GiamThi();
+
+    var TrangThai = 0;
+
+    if (Request["Th_TenDangNhap"] != null)
+    {
+        TenDangNhap = Request["Th_TenDangNhap"];
+        MatKhau = Request["Th_MatKhau"];
+        if (TenDangNhap == "GT" && MatKhau == "GT")
+        {
+            Session["GiamThiDangNhap"] = GiamThi;
+            Response.Redirect("MH_GiamThi.cshtml");
+        }
+        else
+        {
+            var HopLe = DanhSachHocSinh.Any(x => x.Ten_Dang_nhap == TenDangNhap && x.Mat_khau == MatKhau);
+            if (HopLe)
+            {
+                TrangThai = 1;
+                HocSinh = DanhSachHocSinh.FirstOrDefault(x => x.Ten_Dang_nhap == TenDangNhap && x.Mat_khau == MatKhau);
+            }
+            else
+            {
+                TrangThai = 2;
+            }
+        }
+    }
+    //******************* Kết xuất  **********
+    var ChuoiHTMLThongBao = "";
+    if (TrangThai == 0)
+    {
+        ChuoiHTMLThongBao = "<div>Xin vui lòng Nhập Tên đăng nhập và Mật khẩu"
+                            + "<br />Click Đồng ý" + "</div>";
+    }
+    else if (TrangThai == 1)
+    {
+        Session["HocSinhDangNhap"] = HocSinh;
+        Response.Redirect("MH_HocSinh.cshtml");
+    }
+    else if (TrangThai == 2)
+    {
+        ChuoiHTMLThongBao = "<div>Đăng nhập không hợp lệ"
+                            + "<br />Xin vui lòng Nhập <b>lại</b> Tên đăng nhập và Mật khẩu" + "</div>";
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+</head>
+<body>
+    <form method="post">
+        <div class="container-fluid">
+            <div>
+                <div class="alert" style="height:10px">
+                    Đăng nhập
+                </div>
+                <div class="alert" style="height:30px">
+                    <input name="Th_TenDangNhap" required="required"
+                           spellcheck="false" autocomplete="off" value="@TenDangNhap" />
+                </div>
+                <div class="alert" style="height:30px">
+                    <input name="Th_MatKhau" type="password" required="required"
+                           spellcheck="false" autocomplete="off" value="@MatKhau" />
+                </div>
+                <div class="alert" style="height:40px">
+                    <button class="btn btn-danger" type="submit">Đồng ý</button>
+                </div>
+            </div>
+            @Html.Raw(ChuoiHTMLThongBao)
+        </div>
+    </form>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
